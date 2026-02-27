@@ -92,7 +92,9 @@ chmod +x start.sh  # 首次运行需要添加执行权限
 
 ## 🌐 在线访问
 
-如果不想本地安装，也可以在线使用（需要部署到服务器后）。
+- 瓜Tools：[https://guatool.top]
+- COZE:[https://49259678nn.coze.site/]
+
 
 ## 🤝 关于作者
 
