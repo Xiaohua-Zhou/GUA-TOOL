@@ -5,12 +5,28 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { HelpCircle, RefreshCw, Plus, Trash2, Sparkles, Gift } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { HelpCircle, RefreshCw, Plus, Trash2, Sparkles, Gift, Save, FolderOpen } from 'lucide-react';
 
 interface WheelOption {
   id: string;
   text: string;
   color: string;
+}
+
+interface Preset {
+  id: string;
+  name: string;
+  options: string[];
+  createdAt: number;
 }
 
 const COLORS = [
@@ -33,7 +49,27 @@ export default function DecisionWheel() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [rotation, setRotation] = useState(0);
+  const [presetName, setPresetName] = useState('');
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [customPresets, setCustomPresets] = useState<Preset[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 从 localStorage 加载自定义预设
+  useEffect(() => {
+    const savedPresets = localStorage.getItem('wheelPresets');
+    if (savedPresets) {
+      try {
+        setCustomPresets(JSON.parse(savedPresets));
+      } catch (e) {
+        console.error('Failed to load presets:', e);
+      }
+    }
+  }, []);
+
+  // 保存自定义预设到 localStorage
+  const savePresetsToStorage = (presets: Preset[]) => {
+    localStorage.setItem('wheelPresets', JSON.stringify(presets));
+  };
 
   // 绘制轮盘
   useEffect(() => {
@@ -198,6 +234,36 @@ export default function DecisionWheel() {
     setRotation(0);
   };
 
+  // 保存当前选项为自定义预设
+  const handleSavePreset = () => {
+    if (!presetName.trim() || options.length === 0) return;
+
+    const newPreset: Preset = {
+      id: Date.now().toString(),
+      name: presetName.trim(),
+      options: options.map(opt => opt.text),
+      createdAt: Date.now(),
+    };
+
+    const updatedPresets = [...customPresets, newPreset];
+    setCustomPresets(updatedPresets);
+    savePresetsToStorage(updatedPresets);
+    setPresetName('');
+    setIsSaveDialogOpen(false);
+  };
+
+  // 加载自定义预设
+  const handleLoadCustomPreset = (preset: Preset) => {
+    usePreset(preset.options);
+  };
+
+  // 删除自定义预设
+  const handleDeletePreset = (presetId: string) => {
+    const updatedPresets = customPresets.filter(p => p.id !== presetId);
+    setCustomPresets(updatedPresets);
+    savePresetsToStorage(updatedPresets);
+  };
+
   // 快速预设
   const presets = [
     { label: '是/否', options: ['是', '否'] },
@@ -289,7 +355,7 @@ export default function DecisionWheel() {
             <Label className="text-base font-semibold mb-3 block text-foreground">
               快速预设
             </Label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-4">
               {presets.map((preset) => (
                 <Button
                   key={preset.label}
@@ -302,7 +368,89 @@ export default function DecisionWheel() {
                 </Button>
               ))}
             </div>
+
+            {/* 保存按钮 */}
+            <Dialog open={isSaveDialogOpen} onOpenChange={setIsSaveDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full mb-3"
+                  disabled={isSpinning || options.length === 0}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  保存为自定义预设
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>保存预设</DialogTitle>
+                  <DialogDescription>
+                    为当前的选项列表命名，方便以后快速使用
+                  </DialogDescription>
+                </DialogHeader>
+                <Input
+                  value={presetName}
+                  onChange={(e) => setPresetName(e.target.value)}
+                  placeholder="输入预设名称..."
+                  onKeyPress={(e) => e.key === 'Enter' && handleSavePreset()}
+                />
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsSaveDialogOpen(false)}
+                  >
+                    取消
+                  </Button>
+                  <Button
+                    onClick={handleSavePreset}
+                    disabled={!presetName.trim()}
+                  >
+                    确认保存
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
+
+          {/* 自定义预设 */}
+          {customPresets.length > 0 && (
+            <div>
+              <Label className="text-base font-semibold mb-3 block text-foreground">
+                自定义预设
+              </Label>
+              <div className="space-y-2">
+                {customPresets.map((preset) => (
+                  <div
+                    key={preset.id}
+                    className="flex items-center gap-2 p-3 bg-background rounded-lg border border-border"
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleLoadCustomPreset(preset)}
+                      disabled={isSpinning}
+                      className="flex-1 justify-start h-9"
+                    >
+                      <FolderOpen className="w-4 h-4 mr-2" />
+                      <span className="truncate">{preset.name}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">
+                        ({preset.options.length}项)
+                      </span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDeletePreset(preset.id)}
+                      disabled={isSpinning}
+                      className="h-9 w-9 p-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* 选项列表 */}
           <div>

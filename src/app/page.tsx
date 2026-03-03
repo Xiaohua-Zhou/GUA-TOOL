@@ -11,12 +11,13 @@ import Calculator from '@/components/calculator';
 import ColorConverter from '@/components/color-converter';
 import MarkdownEditor from '@/components/markdown-editor';
 import CSSGradientGenerator from '@/components/css-gradient-generator';
+import PixelCircleGenerator from '@/components/pixel-circle-generator';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Clock, Dice6, Dice3, ArrowLeftRight, CalendarDays, QrCode, HelpCircle, Languages, Calculator as CalculatorIcon, Palette, FileText, Sparkles, Github } from 'lucide-react';
+import { Clock, Dice6, Dice3, ArrowLeftRight, CalendarDays, QrCode, HelpCircle, Languages, Calculator as CalculatorIcon, Palette, FileText, Sparkles, Github, CircleDot } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: '阿瓜的实用小工具 - 倒计时 & 随机数 & 骰子投掷器 & 单位换算器 & 日期计算器 & 二维码生成器 & 决策轮盘 & 数字转换 & 计算器 & 颜色转换 & Markdown 编辑器 & CSS 渐变生成器',
-  description: '阿瓜的实用小工具集合，包含倒计时、随机数、骰子投掷器、单位换算器、日期计算器、二维码生成器、决策轮盘、数字转换器、计算器、颜色转换器、Markdown 编辑器和 CSS 渐变生成器',
+  title: '阿瓜的实用小工具 - 倒计时 & 随机数 & 骰子投掷器 & 单位换算器 & 日期计算器 & 二维码生成器 & 决策轮盘 & 数字转换 & 计算器 & 颜色转换 & Markdown 编辑器 & CSS 渐变生成器 & 像素圆生成器',
+  description: '阿瓜的实用小工具集合，包含倒计时、随机数、骰子投掷器、单位换算器、日期计算器、二维码生成器、决策轮盘、数字转换器、计算器、颜色转换器、Markdown 编辑器、CSS 渐变生成器和像素圆生成器',
 };
 
 export default function Home() {
@@ -32,7 +33,7 @@ export default function Home() {
 
         {/* 功能标签页 */}
         <Tabs defaultValue="countdown" className="w-full">
-          <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-1.5 sm:gap-2 w-full max-w-6xl mx-auto mb-6 sm:mb-8 p-2 sm:p-2.5 bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl sm:rounded-2xl shadow-xl border border-border/50 backdrop-blur-sm h-auto min-h-[60px] sm:min-h-[72px] items-stretch">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-1.5 sm:gap-2 w-full max-w-6xl mx-auto mb-6 sm:mb-8 p-2 sm:p-2.5 bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl sm:rounded-2xl shadow-xl border border-border/50 backdrop-blur-sm h-auto min-h-[60px] sm:min-h-[72px] items-stretch">
             <TabsTrigger
               value="countdown"
               className="group data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary/80 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-primary/25 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base py-2.5 sm:py-3 md:py-4 px-2 sm:px-3 md:px-4 transition-all duration-300 hover:bg-muted/70 flex items-center justify-center min-h-[44px] sm:min-h-[52px] md:min-h-[60px]"
@@ -117,6 +118,13 @@ export default function Home() {
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-1 sm:mr-1.5 md:mr-2 group-hover:scale-110 transition-transform duration-300 flex-shrink-0" />
               <span className="whitespace-nowrap text-[10px] sm:text-xs md:text-sm lg:text-sm">CSS 渐变</span>
             </TabsTrigger>
+            <TabsTrigger
+              value="pixel-circle"
+              className="group data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary/80 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-primary/25 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base py-2.5 sm:py-3 md:py-4 px-2 sm:px-3 md:px-4 transition-all duration-300 hover:bg-muted/70 flex items-center justify-center min-h-[44px] sm:min-h-[52px] md:min-h-[60px]"
+            >
+              <CircleDot className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-1 sm:mr-1.5 md:mr-2 group-hover:scale-110 transition-transform duration-300 flex-shrink-0" />
+              <span className="whitespace-nowrap text-[10px] sm:text-xs md:text-sm lg:text-sm">像素圆</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="countdown" className="focus:outline-none">
@@ -165,6 +173,10 @@ export default function Home() {
 
           <TabsContent value="gradient" className="focus:outline-none">
             <CSSGradientGenerator />
+          </TabsContent>
+
+          <TabsContent value="pixel-circle" className="focus:outline-none">
+            <PixelCircleGenerator />
           </TabsContent>
         </Tabs>
 
