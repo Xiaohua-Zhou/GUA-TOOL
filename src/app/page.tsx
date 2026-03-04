@@ -16,8 +16,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Clock, Dice6, Dice3, ArrowLeftRight, CalendarDays, QrCode, HelpCircle, Languages, Calculator as CalculatorIcon, Palette, FileText, Sparkles, Github, CircleDot } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: '阿瓜的实用小工具 - 倒计时 & 随机数 & 骰子投掷器 & 单位换算器 & 日期计算器 & 二维码生成器 & 决策轮盘 & 数字转换 & 计算器 & 颜色转换 & Markdown 编辑器 & CSS 渐变生成器 & 像素圆生成器',
-  description: '阿瓜的实用小工具集合，包含倒计时、随机数、骰子投掷器、单位换算器、日期计算器、二维码生成器、决策轮盘、数字转换器、计算器、颜色转换器、Markdown 编辑器、CSS 渐变生成器和像素圆生成器',
+  title: '阿瓜的实用小工具',
+  description: '一个功能齐全的实用工具箱集合',
 };
 
 export default function Home() {
@@ -186,6 +186,11 @@ export default function Home() {
             {/* 水印 */}
             <p className="text-xs sm:text-sm text-muted-foreground">
               @阿瓜
+            </p>
+
+            {/* 备案号 */}
+            <p className="text-xs text-muted-foreground">
+              沪ICP备2026006016号-1
             </p>
 
             {/* 社交链接按钮 */}

@@ -7,8 +7,7 @@ export const metadata: Metadata = {
     default: '阿瓜的实用小工具',
     template: '%s | 阿瓜的实用小工具',
   },
-  description:
-    '一个功能齐全的实用工具箱集合，包含倒计时、随机数生成、骰子投掷器、单位换算器、日期计算器、二维码生成器、决策轮盘、数字转换器、计算器、颜色转换器、Markdown 编辑器和 CSS 渐变生成器。',
+  description: '一个功能齐全的实用工具箱集合',
   keywords: [
     '实用工具',
     '倒计时',
@@ -26,13 +25,15 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: '@阿瓜' }],
   generator: 'Next.js',
-  // icons: {
-  //   icon: '',
-  // },
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon-32x32.png',
+    apple: '/apple-icon.png',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     title: '阿瓜的实用小工具',
-    description:
-      '一个功能齐全的实用工具箱集合，包含倒计时、随机数生成、骰子投掷器、单位换算器、日期计算器、二维码生成器、决策轮盘、数字转换器、计算器、颜色转换器、Markdown 编辑器和 CSS 渐变生成器。',
+    description: '一个功能齐全的实用工具箱集合',
     url: 'https://guatool.top',
     siteName: '阿瓜的实用小工具',
     locale: 'zh_CN',
