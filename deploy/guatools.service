@@ -1,0 +1,26 @@
+# guatools 生产服务（systemd）
+# 使用方式：
+#   sudo cp deploy/guatools.service /etc/systemd/system/
+#   编辑文件中的 User=/WorkingDirectory= 路径
+#   sudo systemctl daemon-reload && sudo systemctl enable --now guatools
+
+[Unit]
+Description=guatools - Next.js web app
+After=network.target
+
+[Service]
+Type=simple
+# 运行用户：建议使用普通用户（如 www-data 或你部署时用的账号）
+User=www-data
+# 项目目录（替换为你的实际部署路径）
+WorkingDirectory=/var/www/guatools
+# Node 路径（nvm 安装请填写实际路径，如 /root/.nvm/versions/node/v24.x.x/bin/node）
+ExecStart=/usr/bin/node /usr/bin/pnpm start
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=3000
+# 数据库和上传文件写入 .data 目录，确保运行用户有写权限
+
+[Install]
+WantedBy=multi-user.target

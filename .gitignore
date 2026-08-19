@@ -39,6 +39,7 @@ pids
 # Cache
 .cache/
 .eslintcache
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*
